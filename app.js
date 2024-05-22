@@ -3,16 +3,19 @@ import express from 'express';
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const musicList = [
+    {
+        title: "마그네틱",
+        artist: "아일릿",
+    },
+    {
+        title: "봄날",
+        artist: "BTS",
+    },
+];
 
-app.get('/about', (req, res) => {
-    res.send('About!');
-});
-
-app.get('/setting', (req, res) => {
-    res.send('Setting!!!!!!!');
+app.get('/music', (req, res) => {
+  res.json(musicList);
 });
 
 app.listen(port, () => {
