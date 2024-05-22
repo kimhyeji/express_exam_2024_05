@@ -11,8 +11,8 @@ app.get('/about', (req, res) => {
     res.send('About!');
 });
 
-app.get('/Setting', (req, res) => {
-    res.send('Setting!');
+app.get('/setting', (req, res) => {
+    res.send('Setting!!!!!!!');
 });
 
 app.listen(port, () => {
