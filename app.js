@@ -124,6 +124,30 @@ app.patch('/music/:id', async (req, res) => {
     });
 });
 
+// 삭제
+app.delete('/music/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const [rows] = await pool.query("SELECT * FROM music WHERE id = ?", [id,]);
+
+    if ( rows.length == 0 ) {
+        res.status(404).sand("not found");
+        return;
+    }
+
+    const [rs] = await pool.query(
+        `
+        DELETE FROM music
+        WHERE id = ?
+        `,
+        [id]
+    );
+
+    res.status(200).json({
+        id,
+    });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
