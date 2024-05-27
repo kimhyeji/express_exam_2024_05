@@ -80,6 +80,50 @@ app.post('/music', async (req, res) => {
     });
 });
 
+// 수정
+app.patch('/music/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const { title, artist } = req.body;
+
+    const [rows] = await pool.query("SELECT * FROM music WHERE id = ?", [id,]);
+
+    if ( rows.length == 0 ) {
+        res.status(404).sand("not found");
+        return;
+    }
+
+    if ( !title ) {
+        res.status(400).json({
+            msg: "title required"
+        });
+        return;
+    }
+
+    if ( !artist ) {
+        res.status(400).json({
+            msg: "title required"
+        });
+        return;
+    }
+
+    const [rs] = await pool.query(
+        `
+        UPDATE music
+        SET title = ?,
+        artist = ?
+        WHERE id = ?
+        `,
+        [title, artist, id]
+    );
+
+    res.status(200).json({
+        id,
+        title,
+        artist
+    });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
